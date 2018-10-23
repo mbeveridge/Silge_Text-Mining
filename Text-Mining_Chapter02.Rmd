@@ -1,0 +1,59 @@
+---
+title: "Chapter02"
+output:
+  github_document: default
+  html_notebook: default
+---
+
+## 2. "Sentiment Analysis with Tidy Data"
+### 2.1 The sentiments dataset
+### 2.2 Sentiment analysis with inner join
+
+With data in a tidy format, sentiment analysis can be done as an inner join. ... Let’s look at the words with a joy score from the NRC lexicon. What are the most common joy words in "Emma"?
+```{r}
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+
+tidy_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(linenumber = row_number(),
+         chapter = cumsum(str_detect(text, regex("^chapter [\\divxlc]", 
+                                                 ignore_case = TRUE)))) %>%
+  ungroup() %>%
+  unnest_tokens(word, text)   # Lines above are same as §1.3 1st code bloc; this line same as 2nd bloc
+```
+
+...Notice that we chose the name `word` for the output column ... performing inner joins and anti-joins is thus easier.
+
+
+Now that the text is in a tidy format with one word per row, we are ready to do the sentiment analysis.
+```{r}
+nrc_joy <- get_sentiments("nrc") %>%    # use the NRC lexicon
+  filter(sentiment == "joy")            # `filter()` for the joy words
+
+tidy_books %>%
+  filter(book == "Emma") %>%            # `filter()` for the words from "Emma"
+  inner_join(nrc_joy) %>%               # `inner_join()` to perform the sentiment analysis
+  count(word, sort = TRUE)              # `count()` from dplyr for the most common joy words in "Emma"
+```
+
+
+
+We can also examine how sentiment changes throughout each novel. We can do this with just a handful of lines that are mostly dplyr functions. First, we find a sentiment score for each word using the Bing lexicon and inner_join().
+
+Next, we count up how many positive and negative words there are in defined sections of each book. We define an index here to keep track of where we are in the narrative; this index (using integer division) counts up sections of 80 lines of text.
+
+
+
+
+
+
+
+
+
+
+
+### 2.3 Comparing the three sentiment dictionaries
+
+
