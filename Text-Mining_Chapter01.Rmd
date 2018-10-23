@@ -6,6 +6,7 @@ output:
 ---
 
 ## 1. "The Tidy Text Format"
+### 1.1 Contrasting tidy text with other data structures
 ### 1.2 The `unnest_tokens` function
 
 Emily Dickinson wrote some lovely text in her time.
@@ -102,7 +103,6 @@ tidy_books %>%
 
 
 
-
 ### 1.4 The gutenbergr package
 
 https://stackoverflow.com/questions/34705917/conda-how-to-install-r-packages-that-are-not-available-in-r-essentials
@@ -176,6 +176,6 @@ ggplot(frequency, aes(x = proportion, y = `Jane Austen`, color = abs(`Jane Auste
 ```
 
 
-
+### 1.6 Summary
 
 
