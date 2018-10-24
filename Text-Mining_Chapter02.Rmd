@@ -111,7 +111,52 @@ bind_rows(afinn, bing_and_nrc) %>%
 
 ### 2.4 Most common positive and negative words
 
+By implementing count() here with arguments of both word and sentiment, we find out how much each word contributed to each sentiment.
+```{r}
+bing_word_counts <- tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+
+
+bing_word_counts %>%                              # This can be shown visually...
+  group_by(sentiment) %>%
+  top_n(10) %>%
+  ungroup() %>%
+  mutate(word = reorder(word, n)) %>%             # ...and we can pipe straight into ggplot2
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~sentiment, scales = "free_y") +
+  labs(y = "Contribution to sentiment",
+       x = NULL) +
+  coord_flip()
+```
+
+
+the word “miss” is coded as negative but it is used as a title for young, unmarried women in Jane Austen’s works. If it were appropriate for our purposes, we could easily add “miss” to a custom stop-words list using `bind_rows()`.
+```{r}
+custom_stop_words <- bind_rows(data_frame(word = c("miss"), lexicon = c("custom")), stop_words)
+```
 
 
 
+### 2.5 Wordclouds
+
+having our data in a tidy format is useful for other plots as well. ... Let’s look at the most common words in Jane Austen’s works as a whole again
+```{r}
+#install.packages("wordcloud", "~/anaconda3/lib/R/library")      # unable to install (Internet down)
+library(wordcloud)                                   # `wordcloud` package, which uses base R graphics
+
+tidy_books %>%
+  anti_join(stop_words) %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 100))
+```
+
+Also : [In other functions, such as `comparison.cloud()`, you may need to turn the data frame into a matrix with reshape2’s `acast()`]
+
+
+
+### 2.6 Looking at units beyond just words
+### 2.7 Summary
 
