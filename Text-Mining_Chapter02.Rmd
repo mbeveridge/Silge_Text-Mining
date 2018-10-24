@@ -158,5 +158,25 @@ Also : [In other functions, such as `comparison.cloud()`, you may need to turn t
 
 
 ### 2.6 Looking at units beyond just words
+
+some sentiment analysis algorithms look beyond only unigrams (i.e. single words) to try to understand the sentiment of a sentence as a whole.
+
+Another option in `unnest_tokens()` is to split into tokens using a regex pattern. We could use this, for example, to split the text of Jane Austen’s novels into a data frame by chapter.
+```{r}
+austen_chapters <- austen_books() %>%
+  group_by(book) %>%
+  unnest_tokens(chapter, text, token = "regex", pattern = "Chapter|CHAPTER [\\dIVXLC]") %>%
+  ungroup()
+
+austen_chapters %>%                # each row corresponds to one chapter
+  group_by(book) %>% 
+  summarise(chapters = n())
+```
+
+We can use tidy text analysis to ask questions such as what are the most negative chapters in each of Jane Austen’s novels? First, let’s get the list of negative words from the Bing lexicon. [Etc]
+
+
+
 ### 2.7 Summary
+when text data is in a tidy data structure, sentiment analysis can be implemented as an inner join.
 
