@@ -1,0 +1,14 @@
+---
+title: "Chapter03"
+output:
+  github_document: default
+  html_notebook: default
+---
+
+## 3. "Analyzing word and document frequency: tf-idf"
+### 3.1 Term frequency in Jane Austen’s novels
+### 3.2 Zipf’s law
+### 3.3 The `bind_tf_idf` function
+### 3.4 A corpus of physics texts
+### 3.5 Summary
+
