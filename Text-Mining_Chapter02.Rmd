@@ -40,20 +40,78 @@ tidy_books %>%
 
 
 
-We can also examine how sentiment changes throughout each novel. We can do this with just a handful of lines that are mostly dplyr functions. First, we find a sentiment score for each word using the Bing lexicon and inner_join().
+We can also examine how sentiment changes throughout each novel.
 
-Next, we count up how many positive and negative words there are in defined sections of each book. We define an index here to keep track of where we are in the narrative; this index (using integer division) counts up sections of 80 lines of text.
+count up how many positive and negative words there are in defined sections of each book. ... `index` (using integer division) counts up sections of 80 lines of text.
+```{r}
+library(tidyr)
+
+jane_austen_sentiment <- tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%          # sentiment score for each word using Bing
+  count(book, index = linenumber %/% 80, sentiment) %>% # `index` tracks where we are in the narrative
+  spread(sentiment, n, fill = 0) %>%      # `spread()` sentiment to give -ve and +ve in separate cols
+  mutate(sentiment = positive - negative) # lastly calculate a net sentiment (positive - negative)
+```
 
 
+Now we can plot these sentiment scores across the plot trajectory of each novel.
+```{r}
+library(ggplot2)
 
-
-
-
-
-
+ggplot(jane_austen_sentiment, aes(index, sentiment, fill = book)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~book, ncol = 2, scales = "free_x")
+```
 
 
 
 ### 2.3 Comparing the three sentiment dictionaries
+
+Let’s use all three sentiment lexicons and examine how the sentiment changes across the narrative arc of Pride and Prejudice.
+```{r}
+pride_prejudice <- tidy_books %>% 
+  filter(book == "Pride & Prejudice")
+```
+
+
+To find a sentiment score in chunks of text throughout the novel, we will need to use a different pattern for the AFINN lexicon than for the other two.
+```{r}
+afinn <- pride_prejudice %>% 
+  inner_join(get_sentiments("afinn")) %>% 
+  group_by(index = linenumber %/% 80) %>%                               # sections of 80 lines
+  summarise(sentiment = sum(score)) %>%                                 # sum [score between -5 and 5]
+  mutate(method = "AFINN")
+
+bing_and_nrc <- bind_rows(pride_prejudice %>%                           # bind_rows()
+                            inner_join(get_sentiments("bing")) %>%
+                            mutate(method = "Bing et al."),
+                          pride_prejudice %>% 
+                            inner_join(get_sentiments("nrc") %>%
+                                         filter(sentiment %in% c("positive",      # only these 2 cat's
+                                                                 "negative"))) %>%
+                            mutate(method = "NRC")) %>%
+  count(method, index = linenumber %/% 80, sentiment) %>%               # count [binary: +ve or -ve]
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative)                               # net sentiment in sections
+```
+
+
+We now have an estimate of the net sentiment ... for each sentiment lexicon. Let’s bind them together and visualize
+```{r}
+bind_rows(afinn, bing_and_nrc) %>%
+  ggplot(aes(index, sentiment, fill = method)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~method, ncol = 1, scales = "free_y")
+```
+
+...the NRC sentiment is high, the AFINN sentiment has more variance, the Bing et al. sentiment appears to find longer stretches of similar text, but all three agree roughly on the overall trends
+
+
+
+
+### 2.4 Most common positive and negative words
+
+
+
 
 
