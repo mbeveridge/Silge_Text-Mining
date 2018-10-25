@@ -6,7 +6,44 @@ output:
 ---
 
 ## 3. "Analyzing word and document frequency: tf-idf"
+
+A central question in text mining and natural language processing is how to quantify what a document is about. ... The statistic 'tf-idf' is intended to measure how important a word is to a document in a collection (or corpus) of documents
+
+
 ### 3.1 Term frequency in Jane Austen’s novels
+
+Let’s start by looking at the published novels of Jane Austen and examine first term frequency, then tf-idf.
+```{r}
+library(dplyr)
+library(janeaustenr)
+library(tidytext)
+
+book_words <- austen_books() %>%          # most commonly used words in Jane Austen’s novels
+  unnest_tokens(word, text) %>%
+  count(book, word, sort = TRUE) %>%
+  ungroup()                               # cols : book, word, n
+
+total_words <- book_words %>%             # total words in each novel, for later use
+  group_by(book) %>% 
+  summarize(total = sum(n))
+
+book_words <- left_join(book_words, total_words)          # cols : book, word, n, total
+```
+
+
+let’s look at the distribution of n/total for each novel ... This is exactly what term frequency is.
+```{r}
+library(ggplot2)
+
+ggplot(book_words, aes(n/total, fill = book)) +
+  geom_histogram(show.legend = FALSE) +
+  xlim(NA, 0.0009) +
+  facet_wrap(~book, ncol = 2, scales = "free_y")
+```
+
+
+
+
 ### 3.2 Zipf’s law
 ### 3.3 The `bind_tf_idf` function
 ### 3.4 A corpus of physics texts
