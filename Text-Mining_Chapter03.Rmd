@@ -70,6 +70,40 @@ freq_by_rank %>%
 
 
 ### 3.3 The `bind_tf_idf` function
+
+Calculating tf-idf attempts to find the words that are important (i.e., common) in a text, but not too common.
+```{r}
+book_words <- book_words %>%
+  bind_tf_idf(word, book, n)      # tidy text dataset as input with one row per token, per document.
+```
+
+
+Let’s look at terms with high tf-idf in Jane Austen’s works.
+```{r}
+book_words %>%
+  select(-total) %>%
+  arrange(desc(tf_idf))
+```
+
+
+```{r}
+book_words %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>% 
+  group_by(book) %>% 
+  top_n(15) %>% 
+  ungroup %>%
+  ggplot(aes(word, tf_idf, fill = book)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~book, ncol = 2, scales = "free") +
+  coord_flip()
+```
+
+...Jane Austen used similar language across her six novels, and what distinguishes one novel from the rest within the collection of her works are the proper nouns, the names of people and places.
+
+
+
 ### 3.4 A corpus of physics texts
 ### 3.5 Summary
 
