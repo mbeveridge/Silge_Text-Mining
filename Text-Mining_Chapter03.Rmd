@@ -109,37 +109,37 @@ book_words %>%
 Let’s download some classic physics texts from Project Gutenberg and see what terms are important in these works, as measured by tf-idf.
 ```{r}
 library(gutenbergr)
-physics <- gutenberg_download(c(37729, 14725, 13476, 5001), 
+physics <- gutenberg_download(c(37729, 14725, 13476, 5001),              # 4 texts (4 authors)
                               meta_fields = "author")
 ```
 
 
-let’s use unnest_tokens() and count() to find out how many times each word was used in each text.
+let’s use `unnest_tokens()` and `count()` to find out how many times each word was used in each text.
 ```{r}
-physics_words <- physics %>%
-  unnest_tokens(word, text) %>%
-  count(author, word, sort = TRUE) %>%
-  ungroup()
+physics_words <- physics %>%                        # cols : gutenberg_id, text, author [15334 rows]
+  unnest_tokens(word, text) %>%                     # cols : gutenberg_id, author, word [149805]
+  count(author, word, sort = TRUE) %>%              # cols : author, word, n            [12592]
+  ungroup()                                         # cols : author, word, n            [12592]
 ```
 
 
 we need to remember that these documents are all different lengths. Let’s go ahead and calculate tf-idf, then visualize the high tf-idf words
 ```{r}
-plot_physics <- physics_words %>%
-  bind_tf_idf(word, author, n) %>%
-  arrange(desc(tf_idf)) %>%
-  mutate(word = factor(word, levels = rev(unique(word)))) %>%
-  mutate(author = factor(author, levels = c("Galilei, Galileo",
+plot_physics <- physics_words %>%                   # cols : author, word, n                  [12592]
+  bind_tf_idf(word, author, n) %>%                  # cols : author, word, n, tf, idf, tf_idf [12592]
+  arrange(desc(tf_idf)) %>%                                             # descending sort (same cols)
+  mutate(word = factor(word, levels = rev(unique(word)))) %>%           # factors ? (looks the same)
+  mutate(author = factor(author, levels = c("Galilei, Galileo",         # factors ? (looks the same)
                                             "Huygens, Christiaan", 
                                             "Tesla, Nikola",
                                             "Einstein, Albert")))
 
 plot_physics %>% 
   group_by(author) %>% 
-  top_n(15, tf_idf) %>% 
+  top_n(15, tf_idf) %>%                                          # top15 words per author [60]
   ungroup() %>%
-  mutate(word = reorder(word, tf_idf)) %>%
-  ggplot(aes(word, tf_idf, fill = author)) +                           # visualize
+  mutate(word = reorder(word, tf_idf)) %>%                       # descending sort ? (looks the same)
+  ggplot(aes(word, tf_idf, fill = author)) +                     # visualize
   geom_col(show.legend = FALSE) +
   labs(x = NULL, y = "tf-idf") +
   facet_wrap(~author, ncol = 2, scales = "free") +
