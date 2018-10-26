@@ -7,12 +7,57 @@ output:
 
 ## 4. "Relationships between words: n-grams and correlations"
 
-
+many interesting text analyses are based on the relationships between words, whether examining which words tend to follow others immediately, or that tend to co-occur within the same documents.
 
 
 ### 4.1 Tokenizing by n-gram
 
+We do this by adding the `token = "ngrams"` option to `unnest_tokens()`, and setting `n` to the number of words we wish to capture in each n-gram. When we set `n` to 2, we are examining pairs of two consecutive words, often called “bigrams”:
+```{r}
+library(dplyr)
+library(tidytext)
+library(janeaustenr)
+
+austen_bigrams <- austen_books() %>%
+  unnest_tokens(bigram, text, token = "ngrams", n = 2)
+```
+
+...It is structured as one-token-per-row ... but each token now represents a bigram. Notice that these bigrams overlap
+
+
 #### 4.1.1 Counting and filtering n-grams
+
+a lot of the most common bigrams are pairs of common (uninteresting) words ... This is a useful time to use tidyr’s `separate()`, which splits a column into multiple based on a delimiter ... we can remove cases where either is a stop-word.
+```{r}
+library(tidyr)
+
+bigrams_separated <- austen_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+# new bigram counts:
+bigram_counts <- bigrams_filtered %>% 
+  count(word1, word2, sort = TRUE)
+```
+
+...“separate/filter/count/unite” let us find the most common bigrams not containing stop-words.
+
+
+you may be interested in the most common trigrams, which are consecutive sequences of 3 words.
+```{r}
+austen_books() %>%
+  unnest_tokens(trigram, text, token = "ngrams", n = 3) %>%                # n = 3
+  separate(trigram, c("word1", "word2", "word3"), sep = " ") %>%
+  filter(!word1 %in% stop_words$word,
+         !word2 %in% stop_words$word,
+         !word3 %in% stop_words$word) %>%
+  count(word1, word2, word3, sort = TRUE)
+```
+
+
 #### 4.1.2 Analyzing bigrams
 #### 4.1.3 Using bigrams to provide context in sentiment analysis
 #### 4.1.4 Visualizing a network of bigrams with ggraph
