@@ -95,6 +95,37 @@ bigrams_separated %>%                    # from s4.1.1
   count(word1, word2, sort = TRUE)       # cols : word1, word2, n
 ```
 
+...We could use this to ignore or even reverse their contribution to the sentiment score.
+
+
+Let’s use the AFINN lexicon for sentiment analysis ... We can then examine the most frequent words that were preceded by “not” and were associated with a sentiment.
+```{r}
+AFINN <- get_sentiments("afinn")                    # cols : word, score
+
+not_words <- bigrams_separated %>%
+  filter(word1 == "not") %>%
+  inner_join(AFINN, by = c(word2 = "word")) %>%
+  count(word2, score, sort = TRUE) %>%
+  ungroup()
+
+not_words
+```
+
+
+It’s worth asking which words contributed the most in the “wrong” direction. To compute that, we can multiply their score by the number of times they appear
+```{r}
+not_words %>%
+  mutate(contribution = n * score) %>%
+  arrange(desc(abs(contribution))) %>%
+  head(20) %>%
+  mutate(word2 = reorder(word2, contribution)) %>%
+  ggplot(aes(word2, n * score, fill = n * score > 0)) +        # visualize the result with a bar plot
+  geom_col(show.legend = FALSE) +
+  xlab("Words preceded by \"not\"") +
+  ylab("Sentiment score * number of occurrences") +
+  coord_flip()
+```
+
 
 
 
