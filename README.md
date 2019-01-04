@@ -7,13 +7,13 @@ Reading “[**Text Mining with R**](https://www.tidytextmining.com/)”, a free 
 
 Files in this repo contain my answers from attempting Exercises in the book
 
-## 01. The tidy text format
-* [1.1]():
-* [1.2]():
-* [1.3]():
-* [1.4]():
-* [1.5]():
-* [1.6]():
+## [01](https://www.tidytextmining.com/tidytext.html). The tidy text format
+* [1.1](https://www.tidytextmining.com/tidytext.html#contrasting-tidy-text-with-other-data-structures): Contrasting tidy text with other data structures
+* [1.2](https://www.tidytextmining.com/tidytext.html#the-unnest_tokens-function): The `unnest_tokens` function
+* [1.3](https://www.tidytextmining.com/tidytext.html#tidyausten): Tidying the works of Jane Austen
+* [1.4](https://www.tidytextmining.com/tidytext.html#the-gutenbergr-package): The gutenbergr package
+* [1.5](https://www.tidytextmining.com/tidytext.html#word-frequencies): Word frequencies
+* [1.6](https://www.tidytextmining.com/tidytext.html#summary): Summary
 
 ## 02. Sentiment analysis with tidy data
 * [2.1]():
