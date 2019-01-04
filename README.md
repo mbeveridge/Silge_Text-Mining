@@ -11,18 +11,18 @@ Files in this repo contain my answers from attempting Exercises in the book
 
 ## 02. Sentiment analysis with tidy data
 
-## 03.
+## 03. Analyzing word and document frequency: tf-idf
 
-## 04.
+## 04. Relationships between words: n-grams and correlations
 
-## 05.
+## 05. Converting to and from non-tidy formats
 
-## 06.
+## 06. Topic modeling
 
-## 07.
+## 07. Case study: comparing Twitter archives
 
-## 08.
+## 08. Case study: mining NASA metadata
 
-## 09.
+## 09. Case study: analyzing usenet text
 
-## 10.
+## 10. References
