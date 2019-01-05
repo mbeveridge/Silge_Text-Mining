@@ -15,14 +15,14 @@ Files in this repo contain my answers from attempting Exercises in the book
 * [1.5](https://www.tidytextmining.com/tidytext.html#word-frequencies): Word frequencies
 * [1.6](https://www.tidytextmining.com/tidytext.html#summary): Summary
 
-## 02. Sentiment analysis with tidy data
-* [2.1]():
-* [2.2]():
-* [2.3]():
-* [2.4]():
-* [2.5]():
-* [2.6]():
-* [2.7]():
+## [02](https://www.tidytextmining.com/sentiment.html). Sentiment analysis with tidy data
+* [2.1](https://www.tidytextmining.com/sentiment.html#the-sentiments-dataset): The `sentiments` dataset
+* [2.2](https://www.tidytextmining.com/sentiment.html#sentiment-analysis-with-inner-join): Sentiment analysis with inner join
+* [2.3](https://www.tidytextmining.com/sentiment.html#comparing-the-three-sentiment-dictionaries): Comparing the three sentiment dictionaries
+* [2.4](https://www.tidytextmining.com/sentiment.html#most-positive-negative): Most common positive and negative words
+* [2.5](https://www.tidytextmining.com/sentiment.html#wordclouds): Wordclouds
+* [2.6](https://www.tidytextmining.com/sentiment.html#looking-at-units-beyond-just-words): Looking at units beyond just words
+* [2.7](https://www.tidytextmining.com/sentiment.html#summary-1): Summary
 
 ## 03. Analyzing word and document frequency: tf-idf
 * [3.1]():
