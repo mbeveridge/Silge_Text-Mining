@@ -24,12 +24,12 @@ Files in this repo contain my answers from attempting Exercises in the book
 * [2.6](https://www.tidytextmining.com/sentiment.html#looking-at-units-beyond-just-words): Looking at units beyond just words
 * [2.7](https://www.tidytextmining.com/sentiment.html#summary-1): Summary
 
-## 03. Analyzing word and document frequency: tf-idf
-* [3.1]():
-* [3.2]():
-* [3.3]():
-* [3.4]():
-* [3.5]():
+## [03](https://www.tidytextmining.com/tfidf.html). Analyzing word and document frequency: tf-idf
+* [3.1](https://www.tidytextmining.com/tfidf.html#term-frequency-in-jane-austens-novels): Term frequency in Jane Austen’s novels
+* [3.2](https://www.tidytextmining.com/tfidf.html#zipfs-law): Zipf's law
+* [3.3](https://www.tidytextmining.com/tfidf.html#the-bind_tf_idf-function): The `bind_tf_idf` function
+* [3.4](https://www.tidytextmining.com/tfidf.html#a-corpus-of-physics-texts): A corpus of physics texts
+* [3.5](https://www.tidytextmining.com/tfidf.html#summary-2): Summary
 
 ## 04. Relationships between words: n-grams and correlations
 * [4.1]():
