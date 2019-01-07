@@ -31,7 +31,7 @@ Files in this repo contain my answers from attempting Exercises in the book
 * [3.4](https://www.tidytextmining.com/tfidf.html#a-corpus-of-physics-texts): A corpus of physics texts
 * [3.5](https://www.tidytextmining.com/tfidf.html#summary-2): Summary
 
-## 04. Relationships between words: n-grams and correlations
+## [04](https://www.tidytextmining.com/ngrams.html). Relationships between words: n-grams and correlations
 * [4.1]():
 * [4.2]():
 * [4.3]():
