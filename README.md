@@ -32,7 +32,7 @@ Files in this repo contain my answers from attempting Exercises in the book
 * [3.5](https://www.tidytextmining.com/tfidf.html#summary-2): Summary
 
 ## [04](https://www.tidytextmining.com/ngrams.html). Relationships between words: n-grams and correlations
-* [4.1]():
+* [4.1](https://www.tidytextmining.com/ngrams.html#tokenizing-by-n-gram): Tokenizing by n-gram
 * [4.2]():
 * [4.3]():
 
